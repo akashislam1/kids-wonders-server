@@ -44,7 +44,6 @@ async function run() {
         query = { subCategory: req.query?.subCategory };
       }
       const result = await toyCollections.find(query).toArray();
-      console.log("42", result);
       res.send(result);
     });
     // get toy by id
@@ -52,9 +51,14 @@ async function run() {
       const result = await toyCollections.findOne({
         _id: new ObjectId(req.params.id),
       });
-      console.log(result);
       res.send(result);
     });
+    // post method
+    app.post("/post-toy", async (req, res) => {
+      const result = await toyCollections.insertOne(req.body);
+      res.send(result);
+    });
+
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log(
