@@ -40,7 +40,7 @@ async function run() {
 
     // get all toy collections
     app.get("/toys", async (req, res) => {
-      const result = await toyCollections.find({}).sort({ price: 1 }).toArray();
+      const result = await toyCollections.find().toArray();
       res.send(result);
     });
     // get toy by sub category
@@ -63,6 +63,7 @@ async function run() {
     app.get("/mytoys/:email", async (req, res) => {
       const result = await toyCollections
         .find({ seller_email: req.params.email })
+        .sort({ price: 1 })
         .toArray();
       res.send(result);
     });
