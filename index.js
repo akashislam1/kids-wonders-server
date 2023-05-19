@@ -32,6 +32,7 @@ async function run() {
     });
 
     const toyCollections = client.db("toyShopDB").collection("toyCollection");
+
     // get all toy collections
     app.get("/toys", async (req, res) => {
       const result = await toyCollections.find().toArray();
@@ -51,6 +52,14 @@ async function run() {
       const result = await toyCollections.findOne({
         _id: new ObjectId(req.params.id),
       });
+      res.send(result);
+    });
+    // get toy by email
+    app.get("/mytoys/:email", async (req, res) => {
+      console.log(req.params.email);
+      const result = await toyCollections
+        .find({ seller_email: req.params.email })
+        .toArray();
       res.send(result);
     });
     // post method
