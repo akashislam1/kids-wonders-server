@@ -56,7 +56,6 @@ async function run() {
     });
     // get toy by email
     app.get("/mytoys/:email", async (req, res) => {
-      console.log(req.params.email);
       const result = await toyCollections
         .find({ seller_email: req.params.email })
         .toArray();
@@ -67,7 +66,27 @@ async function run() {
       const result = await toyCollections.insertOne(req.body);
       res.send(result);
     });
+    // patch method
+    app.patch("/update-toy/:id", async (req, res) => {
+      const filter = { _id: new ObjectId(req.params.id) };
+      const updateDoc = {
+        $set: {
+          price: req.body.price,
+          available_quantity: req.body.available_quantity,
+          detail_description: req.body.detail_description,
+        },
+      };
+      const result = await toyCollections.updateOne(filter, updateDoc);
+      res.send(result);
+    });
 
+    // delete method
+    app.delete("/post-toy/:id", async (req, res) => {
+      const result = await toyCollections.deleteOne({
+        _id: new ObjectId(req.params.id),
+      });
+      res.send(result);
+    });
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log(
