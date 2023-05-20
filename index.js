@@ -18,7 +18,7 @@ const client = new MongoClient(uri, {
   },
   useNewUrlParser: true,
   useUnifiedTopology: true,
-  maxPoolSize: 50,
+  maxPoolSize: 10,
 });
 
 async function run() {
