@@ -53,14 +53,17 @@ async function run() {
       });
       res.send(result);
     });
+
     // get toy by email
     app.get("/mytoys/:email", async (req, res) => {
       const result = await toyCollections
         .find({ seller_email: req.params.email })
-        .sort({ price: 1 })
+        .collation({ locale: "en_US", numericOrdering: true })
+        .sort({ price: -1 })
         .toArray();
       res.send(result);
     });
+
     // get toy by search
 
     app.get("/searchToy/:text", async (req, res) => {
